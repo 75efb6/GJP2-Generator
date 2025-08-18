@@ -19,7 +19,7 @@ class PasswordHasher:
 def main():
   args = sys.argv
   if not len(args) == 2:
-    return print("No password inputed or inputs surpass one")
+    return print("No password inputed or inputs surpass one\nUSAGE: python gjp2_generator.py <password>")
   passwd = args[1]
   print("Hashing...")
   hasher = PasswordHasher(passwd)
