@@ -1,9 +1,20 @@
 import hashlib
 import bcrypt
 import sys
+import secrets
+import string
+
+class PasswordGenerator:
+  def __init__(self, lenght: int):
+    self.pw_lenght = lenght
+    self.char_set = string.ascii_letters + string.digits # No simbols due to passwords cannot contain symbols in geometry dash.
+  
+  @property
+  def gen_pw(self):
+    return "".join(secrets.choice(self.char_set) for _ in range(self.pw_lenght))
 
 class PasswordHasher:
-  def __init__(self, password):
+  def __init__(self, password: str):
     self.password = password
   
   @property
@@ -27,8 +38,18 @@ class PasswordHasher:
 def main():
   args = sys.argv
   if not len(args) == 2:
-    return print("No password inputed or inputs surpass one\nUSAGE: python gjp2_generator.py <password>")
-  passwd = args[1]
+    try:
+      pw_lenght = int(input("No password inputed or inputs surpass one\nProcceeding with generating a password, input what lenght you would like it to have: "))
+    except:
+      print("No lenght specified or lenght is not valid, proceeding with 16 characters.")
+      pw_lenght = 16
+    
+    generator = PasswordGenerator(pw_lenght)
+    print("Generating...")
+    passwd = generator.gen_pw
+    print(f"Generated password is: {passwd}")
+  else:
+    passwd = args[1]
   print("Hashing...")
   hasher = PasswordHasher(passwd)
   print(f"Generated GJP1 hash (password field): {hasher.gen_gjp1}\nGenerated GJP2 hash (gjp2 field): {hasher.gen_gjp2}")
