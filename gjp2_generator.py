@@ -17,21 +17,23 @@ class PasswordHasher:
   def __init__(self, password: str):
     self.password = password
   
+  # Legacy bCrypt only password (GD 2.113 and indwards)
   @property
-  def gen_sha1(self):
-    salt = "mI29fmAnxgTs" # Hardcoded salt
-    self.password = (self.password + salt).encode("utf-8")
-    return hashlib.sha1(self.password).hexdigest()
-  
-  @property
-  def gen_gjp2(self):
-    bpasswd = self.gen_sha1.encode("utf-8")
+  def gen_gjp1(self):
+    bpasswd = self.password.encode("utf-8")
     salt = bcrypt.gensalt()
     return bcrypt.hashpw(bpasswd, salt).decode("utf-8")
   
   @property
-  def gen_gjp1(self):
-    bpasswd = self.password.encode("utf-8")
+  def gen_sha1(self):
+    salt = "mI29fmAnxgTs" # Hardcoded salt
+    salted = (self.password + salt).encode("utf-8")
+    return hashlib.sha1(salted).hexdigest()
+  
+  # Newer SHA1 + bCrypt password (GD 2.2 and onwards)
+  @property
+  def gen_gjp2(self):
+    bpasswd = self.gen_sha1.encode("utf-8")
     salt = bcrypt.gensalt()
     return bcrypt.hashpw(bpasswd, salt).decode("utf-8")
     
