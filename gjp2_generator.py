@@ -7,7 +7,7 @@ import string
 class PasswordGenerator:
   def __init__(self, lenght: int):
     self.pw_lenght = lenght
-    self.char_set = string.ascii_letters + string.digits # No simbols due to passwords cannot contain symbols in geometry dash.
+    self.char_set = string.ascii_letters + string.digits # No symbols due to passwords cannot contain symbols in geometry dash.
   
   @property
   def gen_pw(self):
@@ -56,6 +56,9 @@ def main():
     passwd = args[1]
     if len(passwd) < 8:
       raise ValueError("Password is too short (min 8 chars)")
+    # Sanity check for symbols in password due to GD not admitting them.
+    if any(char in string.punctuation for char in passwd):
+      raise ValueError("Password must not contain symbols.")
   print("Hashing...")
   hasher = PasswordHasher(passwd)
   print(f"Generated GJP1 hash (password field): {hasher.gen_gjp1}\nGenerated GJP2 hash (gjp2 field): {hasher.gen_gjp2}")
