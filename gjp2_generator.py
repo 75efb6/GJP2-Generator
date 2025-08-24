@@ -17,7 +17,7 @@ class PasswordHasher:
   def __init__(self, password: str):
     self.password = password
   
-  # Legacy bCrypt only password (GD 2.113 and indwards)
+  # Legacy bCrypt only password (GD 2.113 and inwards)
   @property
   def gen_gjp1(self):
     bpasswd = self.password.encode("utf-8")
@@ -41,7 +41,7 @@ def main():
   args = sys.argv
   if not len(args) == 2:
     try:
-      pw_lenght = int(input("No password inputed or inputs surpass one\nProcceeding with generating a password, input what lenght you would like it to have: "))
+      pw_lenght = int(input("No password inputted or inputs surpass one\nProceeding with generating a password, input what lenght you would like it to have: "))
     except:
       print("No lenght specified or lenght is not valid, proceeding with 16 characters.")
       pw_lenght = 16
