@@ -54,7 +54,7 @@ def main():
     print(f"Generated password is: {passwd}")
   else:
     passwd = args[1]
-    if lenght(passwd) < 8:
+    if len(passwd) < 8:
       raise ValueError("Password is too short (min 8 chars)")
   print("Hashing...")
   hasher = PasswordHasher(passwd)
